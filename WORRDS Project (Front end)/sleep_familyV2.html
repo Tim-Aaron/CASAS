@@ -556,27 +556,29 @@ var Circle5 = Canvas3.append("circle")
 //creates the bar graph for the # of hours slept
 //data pulls from an array that is connected to the JSON packet
 var Bars =  Canvas.selectAll("rect")
-   .attr("id", "Bars")
    .data(DataArray)
    .enter()
    .append("rect")
    .attr("width", function(d) {return heightScale(d.sleep_time.hours + (d.sleep_time.minutes/60))/2 ;})
-   .attr("height", 60.01)
+   .attr("height", 60)
+   .attr("id","Bars")
    .attr("y", function(d, i) { return i * 80})
    .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
    .attr("transform", "rotate(-90)")
    .on("mouseover", mouseoverC)
    .on("mouseout", mouseoutC);
+   
+   console.log(Bars.attr("id"));
 
 
 //creates the bar graph for the # of interruptions
 var InterBars =  Canvas2.selectAll("rect")
   .data(DataArray)
-  .attr("id", "inter_Bars")
   .enter()
    .append("rect")
+   .attr("id","inter_Bars")
    .attr("width", function(d) {return interScale(d.inter_time.interruptions)*1.125;})
-   .attr("height", 60.02)
+   .attr("height", 60)
    .attr("y", function(d, i) { return i * 80})
    .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
    .attr("transform", "translate(300,350) rotate (-90)")
@@ -586,11 +588,11 @@ var InterBars =  Canvas2.selectAll("rect")
 //creates the bar graph for the total length of the interruptions   
 var DurBars =  Canvas3.selectAll("rect")
   .data(DataArray)
-  .attr("id", "DurBars")
   .enter()
    .append("rect")
+   .attr("id", "DurBars")
    .attr("width", function(d) {return durScale(d.inter_time.minutes / 1.4);})
-   .attr("height", 60.03)
+   .attr("height", 60)
    .attr("y", function(d, i) { return i * 80})
    .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
    .attr("transform", "translate(300,180) rotate (-90)")
@@ -706,8 +708,6 @@ if(pastMonth[0] == 0)
 {
 pastMonth = pastMonth[1];
 }
-console.log(curMonth);
-console.log(pastMonth);
 	
 Canvas.select("#header_text")
 		.style("text-anchor", "middle")
@@ -1013,8 +1013,6 @@ if(prevMonth[0] == 0)
 {
 prevMonth = prevMonth[1];
 }
-console.log(currMonth);
-console.log(prevMonth);
 	
 Canvas.append("text")
 		.attr("id", "header_text")

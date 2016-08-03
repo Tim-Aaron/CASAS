@@ -28,7 +28,7 @@ function mouseoverC(d)
     //checks to see which canvas the user is in (this method is really ugly)
     //we set the canvas size to be .01 different so we can check the canvas based on the size
      //canvas 1
-    if (d3.select(this).attr("height") == 60.01)
+    if (d3.select(this).attr("id") == "Bars")
     {
     //get the data from the bars
     var boxText = "Hours: " + d.sleep_time.hours;
@@ -60,7 +60,7 @@ function mouseoverC(d)
     }
     
     //canvas 2
-    else if (d3.select(this).attr("height") == 60.02)
+    else if (d3.select(this).attr("id") == "inter_Bars")
     { 
     boxPositionY = 380;
     arrowPositionY = 605;
@@ -70,7 +70,6 @@ function mouseoverC(d)
     //canvas 3
     else
     {
-    
     boxPositionY = 610;
     arrowPositionY = 845;
     boxText = "Total Duration: " + d.inter_time.minutes;
@@ -134,7 +133,7 @@ function mouseoutC()
   		.range(["#55F3A4", "#020761"]);
 	
 	//checks which canvas the user is in
-	if (d3.select(this).attr("height") == 60.01)
+	if (d3.select(this).attr("id") === "Bars")
     {
     //canvas 1
     
@@ -145,7 +144,7 @@ function mouseoutC()
    		.style("stroke-width", 0);
     
     }
-    else if (d3.select(this).attr("height") == 60.02)
+    else if (d3.select(this).attr("id") === "inter_Bars")
     {
     //canvas 2
     d3.select(this).transition(1000)
