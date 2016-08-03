@@ -1,0 +1,21 @@
+Things to build or do:
+	Upgrade the data processor:
+		improve efficiency, fix sleep calculator,
+		and add machine learning component.
+
+	Create a universal login system for patients, nurses, and familial caregivers:
+		Make it website oriented. Employ a circle of care, where one patient 
+		may be granted different levels of access based on their status. Integrate with
+		question and answer machine such that patient access is easy and the system can 
+		tell who is being referenced based on unique, or general identifiers ('ma', 'pa', 'Barry', 'Ms. Finnegan'...).
+	
+	Create an app to use the current system or integrate with existing app to ensure widespread availability
+		Make it usable with the QandA server and the general back end system.
+
+	Make QandA server more robust, less prone to system failure, auto restartable, and system independant
+
+	Perform a security overview of back end system and patient system to ensure confidentiality and security.
+
+	Possibly migrate from amazon services to similar WSU services to ensure maintainability and cost 
+
+	Create meta analysis engine for analyzing database trends or spotting patterns or changes within user data.
