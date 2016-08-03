@@ -198,40 +198,6 @@ function mouseoutC()
         f.style.borderWidth = "0px";
 }
 
-
-
-/*function MouseOverMonth()
-{
- 	d3.select(this).transition(1000)
- 		//.attr("height","1000")
- 		.style("fill", "#0F9761");
-}
-
-function MouseOutMonth()
-{
-d3.select(this).transition(1000)
-		//.attr("height","35")
- 		.style("fill", "#35D379");
-}
-
-function MouseClick()
-{
-	if (d3.select(this).attr("height") == 35)
-	{
-		d3.select(this).transition(1000)
-		.attr("height","220");
-	
-	}
-	
-	
-	else
-	{
-		d3.select(this).transition(1000)
-		.attr("height","35");
-	
-	}
-}*/
-
 //converts military time to standard time 
 function ConvertToStandardTime(militaryTime)
 {
