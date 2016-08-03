@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html >
+<head>
+<script src= "Medication_Family.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"> </script>
+<title >
+MEDICATION
+</title>
+
+<style>
+
+/* The boxes for the top menu */
+center
+{
+float:left;
+width: 260px;
+height: 45px;
+background-color: #EBEBEB;
+
+}
+
+/* The container for the top navigation menu */
+.TopBanner
+{
+width: 1046px;
+height: 45px;
+margin-left:80px;
+border: 2px solid #1F1F1F;
+}
+
+.verticalLine
+{
+float:left;
+width:2px;
+height:45px;
+background-color: #1F1F1F;
+}
+
+h1
+{
+margin-top:5px;
+font-family: Helvetica;
+font-size: 28px;
+color: #1F1F1F;
+}
+
+/* shows which day is the current day */
+.currentDay
+{
+ font-size: 21px;
+ font-family: Helvetica;
+ font-weight: lighter;
+ color: white;
+ margin-top:5px;
+ margin-left:5px;
+}
+
+#currentBox
+{
+position: absolute;
+width:120px;
+height:35px;
+background-color:#5C5C5C;
+ margin-top: 40px;
+margin-left: 982px;
+border-radius:5px;
+}
+
+/*The text that goes on the infobox */
+.subText
+{
+font-family: Helvetica;
+font-size:16px;
+color:#232323;
+}
+
+
+body
+{
+background-color: #E2E2E2;
+}
+
+
+/* The huge medication table */
+table
+{
+float:left;
+background-color: white;
+margin-top:10px;
+margin-left:255px;
+width:850px;
+border: 2px solid #858585;
+}
+
+/* Each individual box */
+th
+{
+
+border: 2px solid #858585;
+height:125px;
+
+}
+
+
+
+/* The box that displays on mouseover of one of the boxes */
+.infobox
+{
+position: absolute;
+background-color:transparent;
+border-radius:4px;
+border:0px solid black;
+border-style: solid;
+border-width: 0;
+border-color: #858585;
+width: 190px;
+height: 180px;
+margin-top: 40px;
+margin-left:33px;
+z-index:1;
+}
+
+/* the white part in the middle of the infobox */
+.infoMid
+{
+position:absolute;
+width:170px;
+height:160px;
+margin-left:10px;
+margin-top:10px;
+background-color:transparent;
+z-index:2;
+}
+
+/* The text that goes onto the infobox */
+.subText
+{
+font-family: Helvetica;
+margin-left:15px;
+font-size:16px;
+color:transparent;
+}
+
+/* More text that appears on mouseover */
+.hiddenText
+{
+font-family: Helvetica;
+margin-left:5px;
+font-size:0px;
+color:black;
+}
+
+/* The picture of the green check */
+.checkMark
+{
+position:absolute;
+margin-left:-15px;
+width:0px;
+height:30px;
+content:url("http://i.imgur.com/POt8QPb.png");
+}
+/* The picture of the red x */
+.redX
+{
+position:absolute;
+margin-left:-15px;
+content:url("http://i.imgur.com/3KmQXc5.png");
+width:0px;
+height:30px;
+}
+
+/* The picture of the yellow asterisk */
+.asterisk
+{
+position:absolute;
+margin-left:-15px;
+width:30px;
+height:30px;
+content:url("http://i.imgur.com/Ybsc5HS.png");
+}
+
+p
+{
+font-family:Helvetica;
+font-size:18px;
+color:black;
+float:top;
+
+}
+
+/* The green and blue gradient border of the picture legend */
+#legendBackground
+{
+background: #2C2C2C; /* For browsers that do not support gradients */
+background: -webkit-linear-gradient(0deg, #6BDCEB, #67DD65); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(0deg, #6BDCEB, #67DD65); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(0deg, #6BDCEB, #67DD65); /* For Firefox 3.6 to 15 */
+background: linear-gradient(0deg, #6BDCEB, #67DD65); /* Standard syntax */
+width:200px;
+height:250px;
+margin-left:30px;
+margin-top:300px;
+position:absolute;
+
+}
+
+/* The white box containing the legend of the colors */
+#legend
+{
+margin-left:10px;
+margin-top:10px;
+width:180px;
+height:230px;
+background-color:white;
+}
+
+/* The text that describes the pictures */
+.legendText
+{
+	margin-left: 10px;
+	margin-top: 10px;
+	font-size: 17px;
+	font-family: Helvetica;
+	position:absolute;
+	color: black;
+	font-weight:lighter;
+}
+
+/* The arrow that points to the label */
+.pointer {
+position:absolute;
+margin-left:35px;
+margin-top:50px;
+width: 0; 
+height: 0; 
+border-top: 12px solid transparent;
+border-bottom: 12px solid transparent;
+border-left: 15px solid black;
+}
+
+/* The text that describes how to mouseover */
+.label
+{
+font-family:Helvetica;
+font-size:20px;
+color: 2px solid black;
+position: absolute;
+font-weight:lighter;
+
+}
+</style>
+
+</head>
+
+<!-- Loads all of the correct pictures into the boxes on startup -->
+<body onload = "build_up()">
+
+
+<!-- The navigation menu on top -->
+<div class = "TopBanner">
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "http://i.imgur.com/KVATZ6o.png" height = "45px" width = "45px"  style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+food
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center style = "background-color: #2F95DE" id = "-1">
+<image src = "https://s31.postimg.org/xlzax2il7/blank_pill_bottle_copy.png" height = "45px" 
+width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+medication
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center  onmouseover="change_banner(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "https://s31.postimg.org/cjxj0lty3/moon.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+sleep
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "http://i.imgur.com/wh1QzHo.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+hygiene
+</h1>
+</center>
+
+</div>
+
+<div id = "currentBox">
+<h3 class = "currentDay">
+current day
+</h3>
+</div>
+
+<!-- The guid to mouseover the boxes -->
+
+<!-- There are two triangles here, one black one, and one gray one to cover it up -->
+<div class = "pointer">
+</div>
+
+<div class = "pointer" style = "
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid #E2E2E2;
+  margin-top:54px;">
+</div>
+
+<!-- The label -->
+<h2 class = "label" style = "margin-left: 65px; margin-top: 42px"> 
+hover over the boxes <br> for more information
+</h2>
+
+<script>
+
+//An array of months
+var monthNames = new Array();
+monthNames[0] = "January";
+monthNames[1] = "February";
+monthNames[2] = "March";
+monthNames[3] = "April";
+monthNames[4] = "May";
+monthNames[5] = "June";
+monthNames[6] = "July";
+monthNames[7] = "August";
+monthNames[8] = "September";
+monthNames[9] = "October";
+monthNames[10] = "November";
+monthNames[11] = "December";
+
+//An array of days
+var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+
+//gets the current Day
+var date = new Date();
+//Gets the date of a week from current day
+var weekAgo = d3.time.day.offset(date,- 6);
+
+//finds the date of 1 day ago, 2 days ago, etc.
+var dateB1 = d3.time.day.offset(date, -1);
+var dateB2 = d3.time.day.offset(date, -2);
+var dateB3 = d3.time.day.offset(date, -3);
+var dateB4 = d3.time.day.offset(date, -4);
+var dateB5 = d3.time.day.offset(date, -5);
+
+//gets the day of the week for each of those days (written as an integer 0 - 6)
+var day1 = date.getDay();
+var day2 = dateB1.getDay();
+var day3 = dateB2.getDay();
+var day4 = dateB3.getDay();
+var day5 = dateB4.getDay();
+var day6 = dateB5.getDay();
+var day7 = weekAgo.getDay();
+
+//Gets the days ready to be printed for the title
+var day = date.getDate();
+var month =  monthNames[date.getMonth()];
+
+var old_day = weekAgo.getDate();
+var old_month = monthNames[weekAgo.getMonth()];
+
+
+//Makes a canvas
+var Canvas2 = d3.select("body")
+		 .attr("id", "Canvas2")
+         .append("svg")
+         .attr("width", 1100)
+     	 .attr("height", 110)
+    	 .attr("transform", "translate(0,0)");
+
+    //Adds the title of days
+    Canvas2.append("text")
+	.style("text-anchor", "middle")
+	.attr("id", "header_text")
+	.attr("x", 680)
+	.attr("y", 50)
+	.text("Medication  Schedule: " + old_month + ' ' + old_day + ' - ' 
+	+ month + ' ' + day)
+	.style("fill", "#353535")
+	.style("font-size", 30)
+	.style("font-family", "Helvetica");
+	
+	//Adds the label to each column, describing what day it is
+	Canvas2.append("text")
+		.attr("x", 220)
+		.attr("y", 100)
+		.text(days[day7] + "  " + days[day6] + "  " + days[day5] + "  " + days[day4] + "  " + 
+			  days[day3] + "  " + days[day2] + "  " + days[day1])
+		.style("fill", "#09375C")
+		.style("font-size", 25)
+		.style("word-spacing", 68)
+		.attr("transform","translate(82,9)")
+		.style("font-family", "Helvetica");
+	
+	//Appends the text to the canvas
+	Canvas2.append("g")
+		.attr("transform", "translate(0,0)")
+		.selectAll("text")
+		.attr("transform", "translate(30,0)");
+	
+	
+</script>
+
+<!-- Adds the infobox, along with four rows of text -->
+<div class = "infobox" id = "infobox1">
+<div class = "infoMid" id = "infoMid">
+
+<h1 class = "subText" id = "subText1" style = "margin-top:25px;">
+Text Here
+</h1>
+
+<h2 class = "subText" id = "subText2">
+Text Here
+</h2>
+
+<h3 class = "subText" id = "subText3">
+Text Here
+</h3>
+
+<h4 class = "subText" id = "subText4">
+Text Here
+</h4>
+
+</div>
+</div>
+
+<!-- adds the legend, and all the descriptions -->
+<div id = "legendBackground">
+<div id = "legend">
+<image class = "checkMark" style = 'margin-top: 35px ; margin-left: 15px; width: 30px'/>
+
+<h1 class = "legendText" style = "margin-top: 40px; margin-left: 55px"> all meds taken</h1>
+
+<image class = "redX" style = 'margin-top: 100px ; margin-left: 15px; width: 30px'/>
+
+<h1 class = "legendText" style = "margin-top: 90px; margin-left: 55px"> 1 or more medications missed</h1>
+
+<image class = "asterisk" style = 'margin-top: 165px ; margin-left: 15px;'/>
+
+<h1 class = "legendText" style = "margin-top: 160px; margin-left: 55px"> a medical error has occurred</h1>
+
+</div>
+</div>
+
+<!-- The start of the massive table-->
+<table>
+
+<!-- The color for the whole row -->
+<tr style = "background-color:#FFE76E; font-family:Helvetica;" id = "morn" >
+<th onmouseover="changeBackground(this)" id = "0" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<!-- Adds the three dormant pictures -->
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<!-- Adds the hidden text, inside of the box -->
+<h2 class = "hiddenText" id = "morningText0">
+Koala
+</h2>
+</th>
+<th onmouseover="changeBackground(this)" id = "1" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText1">
+Dog
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "2" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText2">
+Puppy
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "3" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText3">
+Cat
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "4" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText4">
+Alligator
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "5" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText5">
+Kangaroo
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "6" onmouseout="backNormal(this)" 
+style = "background-color:#FFFEDA;">
+<p>
+MORN
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "morningText6">
+Lion
+</h2>
+</th>
+
+</tr>
+
+<tr style = "background-color:#80D5F1; font-family:Helvetica;" id = "noon" >
+<th onmouseover="changeBackground(this)" id = "7" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText0">
+Praying Mantis
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "8" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText1">
+Anteater
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "9" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText2">
+Human
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "10" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText3">
+Zebra
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "11" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText4">
+Monkey
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "12" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText5">
+Bear
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "13" onmouseout="backNormal(this)"
+style = "background-color:#D8F2F5;">
+<p>
+NOON
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "noonText6">
+Tiger
+</h2>
+</th>
+
+</tr>
+
+<tr style = "background-color:#BA6D4C; font-family:Helvetica;" id = "evening" >
+<th onmouseover="changeBackground(this)" id = "14" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText0">
+Clown
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "15" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText1">
+Horse
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "16" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText2">
+Pig
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "17" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText3">
+Goat
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "18" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText4">
+Tiger
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "19" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText5">
+Ant
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "20" onmouseout="backNormal(this)"
+style = "background-color:#CEA08C;">
+<p>
+EVE
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "eveText6">
+Leopard
+</h2>
+</th>
+
+</tr>
+
+<tr style = "background-color:#DBEF8B; font-family:Helvetica;" id = "bed" >
+<th onmouseover="changeBackground(this)" id = "21" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText0">
+Sting Ray
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "22" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText1">
+Turtle
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "23" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText2">
+Fish
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "24" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText3">
+Dolphin
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "25" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText4">
+Shark
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "26" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText5">
+Penguin
+</h2>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "27" onmouseout="backNormal(this)"
+style = "background-color:#EAF2C7;">
+<p style = "color:black">
+BED
+</p>
+
+<image class = "checkMark"/>
+<image class = "redX"/>
+<image class = "asterisk"/>
+
+<h2 class = "hiddenText"  id = "bedText6">
+Bird
+</h2>
+</th>
+</tr>
+
+</table>
+
+<!-- End of the table -->
+
+
+
+</body>

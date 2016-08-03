@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src= "medication_Setup_Family.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"> </script>
+<title>
+MEDICATION
+</title>
+
+<style>
+
+/* NOTE */
+
+/* at the moment, this page cannot be used on Google Chrome since it currently uses local cookies
+(and google Chrome doesn't allow that for security purposes). the cookies work on other browsers
+ but the font sizes will be different*/
+
+
+/*these elements are for the top banner*/
+center
+{
+float:left;
+width: 260px;
+height: 45px;
+background-color: #EBEBEB;
+
+}
+
+.TopBanner
+{
+width: 1046px;
+height: 45px;
+margin-left:80px;
+border: 2px solid #1F1F1F;
+}
+
+.verticalLine
+{
+float:left;
+width:2px;
+height:45px;
+background-color: #1F1F1F;
+}
+
+h1
+{
+margin-top:5px;
+font-family: helvetica;
+font-size: 28px;
+color: #1F1F1F;
+}
+
+
+body
+{
+background-color: #E2E2E2;
+}
+
+/* these elements are for making the table */
+table
+{
+float:left;
+background-color: white;
+margin-top:10px;
+margin-left:255px;
+width:850px;
+border: 2px solid #858585;
+}
+
+/* these are for the  text that will be inside of the table*/
+th
+{
+border: 2px solid #858585;
+height:125px;
+}
+
+p
+{
+font-family:Helvetica;
+font-size:18px;
+color:black;
+float:top;
+margin-top:10px;
+}
+
+/* these make the plus and minus buttons*/
+#cross
+{
+width: 20px;
+height: 20px;
+position: absolute;
+margin-left:36px;
+margin-top:0px;
+}
+
+#cross:before, #cross:after
+{
+content: "";
+position: absolute;
+z-index:1;
+background: #38854F;
+}
+
+#cross:before
+{
+left:50%;
+width: 30%;
+margin-left: 35%;
+height: 100%;
+}
+
+#cross:after
+{
+top: 50%;
+height: 30%;
+margin-top: -15%;
+width: 100%;
+}
+
+#minus
+{
+height:6px;
+width:20px;
+background: #38854F;
+position:absolute;
+margin-left:45px;
+margin-top:-25px;
+
+}
+
+h3
+{
+font-family:Helvetica;
+font-size:32px;
+color:black;
+margin-top:40px;
+}
+
+/* creates the save button that will store the cookies */
+
+#save_button
+{
+position:fixed;
+background-color:#14B1AC;
+width:140px;
+height:60px;
+margin-left:50px;
+margin-top:60px;
+border: 2px solid black;
+}
+
+h4
+{
+color:white;
+font-family:Helvetica;
+font-size:26px;
+margin-top:15px;
+margin-left:35px;
+
+}
+
+#padding
+{
+float:left;
+width:600px;
+height:200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- creation of the banner at the top of the screen --> 
+
+<div class = "TopBanner">
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "http://i.imgur.com/KVATZ6o.png" height = "45px" width = "45px"  style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+food
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center style = "background-color: #2F95DE">
+<image src = "https://s31.postimg.org/xlzax2il7/blank_pill_bottle_copy.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+medication
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center  onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "https://s31.postimg.org/cjxj0lty3/moon.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+sleep
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "http://i.imgur.com/wh1QzHo.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+hygiene
+</h1>
+</center>
+
+</div>
+
+<script>
+
+//the array that holds the days of the week
+var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+
+//Canvas 2 is used for the labels above the table
+var Canvas2 = d3.select("body")
+		 .attr("id", "Canvas2")
+         .append("svg")
+         .attr("width", 1500)
+     	 .attr("height", 110)
+    	 .attr("transform", "translate(0,0)");
+
+    	 
+    Canvas2.append("text")
+	.style("text-anchor", "middle")
+	.attr("id", "header_text")
+	.attr("x", 680)
+	.attr("y", 50)
+	.text("Medication  Schedule")
+	.style("fill", "#353535")
+	.style("font-size", 30)
+	.style("font-size-adjust", 20)
+	.style("font-family", "Helvetica");
+	
+	
+	Canvas2.append("text")
+		.attr("x", 220)
+		.attr("y", 100)
+		.text(days[0] + "  " + days[1] + "  " + days[2] + "  " + days[3] + "  " + 
+			  days[4] + "  " + days[5] + "  " + days[6])
+		.style("fill", "#09375C")
+		.style("font-size", 25)
+		.style("word-spacing", 68)
+		.attr("transform","translate(70,9)")
+		.style("font-family", "Helvetica");
+	
+	Canvas2.append("g")
+		.attr("transform", "translate(0,0)")
+		.selectAll("text")
+		.attr("transform", "translate(30,0)");
+	
+	
+</script>
+
+<!-- creation of the table -->
+<div id = "save_button" onmouseover="save_button_over(this)" onmouseout="save_button_out(this)" onclick = "save_table()">
+<h4 id = "save">
+Save
+</h4>
+</div>
+
+
+<table>
+
+<tr style = "background-color:#FFE76E; font-family:Helvetica;" id = "morn" >
+<th onmouseover="changeBackground(this)" id = "m1" onmouseout="backNormal(this)">
+<!-- p gives the name for the box-->
+<p>
+MORN
+</p>
+
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<!-- h3 gives the variable that will increment and decrement depending on whether the user hits the plus or minus -->
+<h3 >
+0
+</h3>
+
+<div id = "minus" onclick = "decrement(this)">
+</div>
+
+</th>
+<th onmouseover="changeBackground(this)" id = "m2" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus" onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "m3" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "m4" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "m5" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "m6" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "m7" onmouseout="backNormal(this)">
+<p>
+MORN
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+</tr>
+
+<tr style = "background-color:#80D5F1; font-family:Helvetica;" id = "noon" >
+<th onmouseover="changeBackground(this)" id = "n1" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus" onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n2" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n3" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n4" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n5" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n6" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "n7" onmouseout="backNormal(this)">
+<p>
+NOON
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+</tr>
+
+<tr style = "background-color:#BA6D4C; font-family:Helvetica;" id = "evening" >
+<th onmouseover="changeBackground(this)" id = "e1" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e2" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e3" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e4" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e5" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e6" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "e7" onmouseout="backNormal(this)">
+<p>
+EVE
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+</tr>
+
+<tr style = "background-color:#DBEF8B; font-family:Helvetica;" id = "bed" >
+<th onmouseover="changeBackground(this)" id = "b1" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b2" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b3" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b4" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b5" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b6" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+
+
+<th onmouseover="changeBackground(this)" id = "b7" onmouseout="backNormal(this)">
+<p style = "color:black">
+BED
+</p>
+<div id = "cross" onclick = "increment(this)">
+</div>
+
+<h3>
+0
+</h3>
+
+<div id = "minus"  onclick = "decrement(this)">
+</div>
+</th>
+</tr>
+
+</table>
+
+<div id = "padding">
+</div>
+
+
+</body>

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src= "sleep_javascript.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"> </script>
+<title>
+SLEEPV2
+</title>
+
+<style>
+
+/* The boxes on the top menu */
+center
+{
+float:left;
+width: 260px;
+height: 45px;
+background-color: #EBEBEB;
+
+}
+
+/* The container for the top menu */
+.TopBanner
+{
+width: 1046px;
+height: 45px;
+margin-left:80px;
+border: 2px solid #1F1F1F;
+}
+
+.verticalLine
+{
+float:left;
+width:2px;
+height:45px;
+background-color: #1F1F1F;
+}
+
+h1
+{
+margin-top:5px;
+font-family: helvetica;
+font-size: 28px;
+color: #1F1F1F;
+}
+
+
+/* The box that appears next to the bar on hover over */
+.infobox
+{
+position: absolute;
+left: 900px;
+margin-top: 150px;
+border-style: solid;
+border-width: 0;
+border-color: #858585;
+width: 160px;
+height: 200px;
+background-color:transparent;
+margin-left:10px;
+z-index:1;
+}
+
+#arrow-left1
+{
+position:absolute;
+border-top: 15px transparent;
+border-bottom: 15px transparent;
+border-right: 15px transparent;
+}
+
+/*The text that goes on the infobox */
+.subText
+{
+font-family: Helvetica;
+font-size:16px;
+color:#232323;
+}
+
+.subText2
+{
+font-family: Helvetica;
+font-size:16px;
+color:#232323;
+}
+
+.subText3
+{
+font-family: Helvetica;
+font-size:16px;
+color:#232323;
+}
+
+.subText4
+{
+font-family: Helvetica;
+font-size:16px;
+color:#232323;
+}
+
+/* The text that tells the user to hover over */
+.label
+{
+font-family:Helvetica;
+font-size:20px;
+color: 2px solid black;
+position: absolute;
+font-weight:lighter;
+
+}
+
+/* The button to select the month and year */
+select
+{
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+
+margin: 50px;
+   border: 1px solid #111;
+   width: 130px;
+   padding: 5px 35px 5px 5px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   height: 34px;
+   background: url("https://s32.postimg.org/nsyjz68ed/down_arrow.png") 96% / 15% no-repeat #35d379;
+
+}
+
+body
+{
+background-color: #E2E2E2;
+}
+
+
+select::-ms-expand
+{
+display:none;
+}
+
+/* This changes the highlight color to white */
+::selection
+{
+background-color:white;
+}
+
+/* The color legend on the left */
+#legend
+{
+width:160px;
+height:240px;
+background-color:white;
+margin-left:30px;
+margin-top:150px;
+position:absolute;
+border:2px solid #292929;
+}
+
+/* The thermometer-style gradient between green and blue on the legend */
+#colorScale
+{
+width:30px;
+height:220px;
+background: #2C2C2C; /* For browsers that do not support gradients */
+background: -webkit-linear-gradient(0deg, #55F3A4, #020761); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(0deg, #55F3A4, #020761); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(0deg, #55F3A4, #020761); /* For Firefox 3.6 to 15 */
+background: linear-gradient(0deg, #55F3A4, #020761); /* Standard syntax */
+margin-left:10px;
+margin-top:10px;
+border-radius:25px;
+}
+
+/* The arrow for the mouseover direction */
+.pointer {
+position:absolute;
+margin-left:900px;
+margin-top:50px;
+width: 0; 
+height: 0; 
+border-top: 12px solid transparent;
+border-bottom: 12px solid transparent;
+border-left: 15px solid black;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- these elements are used for the banner at the top of the screen-->
+<!-- the pictures used in the banner are taken from imgur and postimage via image addresses-->
+
+<!-- this section is for the food part of the top banner-->
+<div class = "TopBanner">
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "http://i.imgur.com/KVATZ6o.png" height = "45px" width = "45px"  style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+food
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<!-- this section is for the medication part of the top banner -->
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "https://s31.postimg.org/xlzax2il7/blank_pill_bottle_copy.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+medication
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<!-- this section is for the sleep part of the top banner -->
+<center style = "background-color: #2F95DE">
+<image src = "https://s31.postimg.org/cjxj0lty3/moon.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+sleep
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<!-- this section is for the hygiene part of the top banner -->
+<center onmouseover="change_banner(this)" onmouseout="backNormal(this)">
+<image src = "http://i.imgur.com/wh1QzHo.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+hygiene
+</h1>
+</center>
+</div>
+
+<!-- these elements are for buttons that are used to select the desired month and year the user wants to look at -->
+<!-- this select element is used for selecting the month -->
+<div>
+<!-- the selected value is the value that is initially shown -->
+<select id="select-Month" style = "margin-top: 900px; margin-left:710px; position:absolute;">
+  <option selected value= 01>January</option> 
+  <option value= 02>February</option>
+  <option value= 03>March</option>
+  <option value= 04>April</option>
+  <option value= 05>May</option>
+  <option value= 06>June</option>
+  <option value= 07>July</option>
+  <option value= 08>August</option>
+  <option value= 09>September</option>
+  <option value= 10>October</option>
+  <option value= 11>November</option>
+  <option value= 12>December</option>
+</select>
+</div>
+
+<!-- this select element is used for selecting the year -->
+<div>
+<select id="select-Year" style = "margin-top: 900px; margin-left:850px; position:absolute; width: 90px;">
+  <option value=2008>2008</option> 
+  <option value=2009>2009</option> 
+  <option value=2010>2010</option> 
+  <option value=2011>2011</option> 
+  <option selected value=2012>2012</option> 
+  <option value=2013>2013</option> 
+  <option value=2014>2014</option> 
+  <option value=2015>2015</option> 
+  <option value=2016>2016</option> 
+  
+  
+</select>
+</div>
+
+
+<!-- the info box that shows data for the graph -->
+<div class="infobox" id= "infobox1">
+<h3 class = "subText" style = "margin-left:10px;" id= "subText1">
+</h3>
+
+<h3 class = "subText2" style = "margin-left:10px;" id = "subText2">
+</h3>
+
+<h3 class = "subText3" style = "margin-left:10px;" id = "subText3">
+</h3>
+
+<h3 class = "subText4" style = "margin-left:10px;" id = "subText4">
+</h3>
+</div>
+
+<!-- the arrow for the infobox -->
+<div class="arrow-left" id= "arrow-left1">
+</div>
+
+<div id = "legend">
+<div id = "colorScale">
+
+<h2 class = "label" style = "margin-top: -3px; margin-left: 40px">a lot of sleep</h2>
+<h2 class = "label" style = "margin-top: 170px; margin-left: 35px">not much sleep</h2>
+</div>
+
+</div>
+
+<script>
+
+
+//this is the server that holds the json data
+d3.json("https://api.myjson.com/bins/4fhdx", function(data)
+{
+
+//n, DataArray, InterArray, and DurArray gets the 7 most recent 
+var n = data.length - 7;
+
+var DataArray = [data[n],
+				data[n+1],
+				data[n+2],
+				data[n+3],
+				data[n+4],
+				data[n+5],
+				data[n+6]];
+
+
+
+//the array that holds the months used for the date
+var monthNames = new Array();
+monthNames[0] = "January";
+monthNames[1] = "February";
+monthNames[2] = "March";
+monthNames[3] = "April";
+monthNames[4] = "May";
+monthNames[5] = "June";
+monthNames[6] = "July";
+monthNames[7] = "August";
+monthNames[8] = "September";
+monthNames[9] = "October";
+monthNames[10] = "November";
+monthNames[11] = "December";
+
+d3.select("p").text("Graph #1");
+
+//variables
+var hours = function(d) {return d.hours;};
+
+var max = getMaxY(DataArray);
+
+var interruptions = function(d) {return d.interruptions;};
+
+var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+
+//width and height of the bar graph
+var width = 860;
+var height = 1200;
+
+//the x scale for all 3 bar graphs
+var xScale = d3.scale.linear()
+				.domain([0,12])
+				.range([0,955]);
+	
+//scales for the width and height for the bars for the sleep bar graph
+var widthScale = d3.scale.linear()
+   .domain([0,12])
+   .range([0,width]);
+   
+var heightScale = d3.scale.linear()
+   .domain([0,16])
+   .range([0,height]);
+   
+  
+//the scale for the y axis for the sleep bar graph
+var sleepyScale = d3.scale.linear()
+			.domain([0,10])
+			.range([525,152]);
+			
+//scale for the width for the bars for the interruptions bar graph
+var interScale = d3.scale.linear()
+	.domain([0,6])
+	.range([0, 200]);
+	
+
+//the y scale for the y axis for the interruptions bar graph
+var interyScale = d3.scale.linear()
+				  .domain([0,4])
+				  .range([150,0]);
+
+//the scale for the bars for the duration of the interruptions bar graph			  
+var durScale = d3.scale.linear()
+	.domain([0, max + (5 - (max % 5))])
+	.range([0,200]);
+			
+//the scale for the y axis for the duration of the interruptions bar graph	
+var DuryScale = d3.scale.linear()
+			.domain([0,max + (5-(max%5))])
+			.range([155,0]);
+
+//color for the graphs
+var color =  d3.scale.linear()
+  .domain([6,12])
+  .range(["#55F3A4", "#020761"]);
+  
+ 
+ 
+
+                
+d3.selectAll(".tick > text")
+		.style("font-size", 16);
+                
+ //the actual x axis for the sleep bar graph
+var axis = d3.svg.axis()
+				.orient("bottom")
+				.ticks(15)
+                .tickFormat(function(d) {return days[d];})
+                .scale(xScale);
+                           
+//the actual y axis for the sleep bar graph   
+var yAxis = d3.svg.axis()
+			.ticks(12)
+			.scale(sleepyScale)
+			.orient("left");
+
+//the actual y axis for the interruptions bar graph  		
+var interXAxis = d3.svg.axis()
+				.orient("bottom")
+				.ticks(15)
+                .tickFormat(function(d) {return days[d];})
+                .scale(xScale);
+                
+//the actual y axis for the interruptions bar graph                
+var interYAxis = d3.svg.axis()
+				 .ticks(4)
+				 .scale(interyScale)
+				 .orient("left");
+
+//the actual y axis for the duration of the interruptions bar graph    				 
+var DurXAxis = d3.svg.axis()
+				.orient("bottom")
+				.ticks(15)
+                .tickFormat(function(d) {return days[d];})
+                .scale(xScale);
+		
+//the actual y axis for the duration of the interruptions bar graph    		 
+var DurYAxis = d3.svg.axis()
+				 .ticks(6)
+				 .scale(DuryScale)
+				 .orient("left");
+			
+//sets up the date at the top of the sleep bar graph	 
+var date = new Date();
+
+//gets the number of days away from sunday
+var offset = date.getDay();
+
+//this gets the most recent sunday as our starting date
+date = d3.time.day.offset(date, 6 - offset);
+
+//weekAgo gets us the date 7 days in the past
+var weekAgo = d3.time.day.offset(date,- 6);
+				
+//creates the Canvas for the sleep bar graph
+var Canvas = d3.select("body")
+		 .attr("id", "Canvas")
+         .append("svg")
+         .attr("width", width)
+     	 .attr("height", 445)
+      	 .append("g")
+    	 .attr("transform", "translate(300,420)");
+
+//creates the Canvas for the interruptions bar graph
+var Canvas2 = d3.select("body")
+		 .attr("id", "Canvas2")
+		 .append("svg")
+         .attr("width", 860)
+      	 .attr("height", 200)
+      	 .append("g")
+         .attr("transform", "translate(0,-180)");
+ 
+//creates the Canvas for the duration of the interruptions bar graph        
+var Canvas3 = d3.select("body")
+				.attr("id", "Canvas3")
+				.append("svg")
+				.attr("width", 860)
+				.attr("height", 300)
+				.attr("transform", "translate(0,300)");
+
+
+//creates the triangles used to switch the data
+var TriangleXScale = d3.scale.linear()
+					  .domain([0,200])
+					  .range([0,200])
+					  
+
+//the scale for the size of the triangle
+var TriangleYScale = d3.scale.linear()
+					  .domain([0,100])
+					  .range([100,0])
+
+//these variables create the left and right triangle				  
+var TrianglePointsLeft = TriangleXScale(0) + ' ' + TriangleYScale(0) + ', ' + 
+						   TriangleXScale(-15) + ' ' + TriangleYScale(15) + ' ' + 
+						   TriangleXScale(0) + ' ' + TriangleYScale(30);
+						   
+var TrianglePointsRight = TriangleXScale(0) + ' ' + TriangleYScale(0) + ', ' + 
+						   TriangleXScale(15) + ' ' + TriangleYScale(15) + ' ' + 
+						   TriangleXScale(0) + ' ' + TriangleYScale(30);						   
+						   
+//the placement of the left triangle					   
+var LeftTriangle = Canvas3.append("polygon")
+	.attr("fill","#151515")
+	.attr('points', TrianglePointsLeft)
+	.attr("transform","translate(430,165)");	
+
+//the placement of the right triangle
+var RightTriangle = Canvas3.append("polygon")
+	.attr("fill","#959595")
+	.attr('points', TrianglePointsRight)
+	.attr("transform","translate(650,165)");
+
+//placement for the 5 circles at the bottom of the website
+var Circle1 = Canvas3.append("circle")
+	.attr("cx", 460)
+	.attr("cy", 250)
+	.attr("r", 6)
+	.attr("fill","#959595");
+	
+var Circle2 = Canvas3.append("circle")
+	.attr("cx", 500)
+	.attr("cy", 250)
+	.attr("r", 6)
+	.attr("fill","#959595");
+	
+	
+var Circle3 = Canvas3.append("circle")
+	.attr("cx", 540)
+	.attr("cy", 250)
+	.attr("r", 6)
+	.attr("fill","#959595");
+	
+	
+var Circle4 = Canvas3.append("circle")
+	.attr("cx", 580)
+	.attr("cy", 250)
+	.attr("r", 6)
+	.attr("fill","#959595");	  
+	
+var Circle5 = Canvas3.append("circle")
+	.attr("cx", 620)
+	.attr("cy", 250)
+	.attr("r", 9)
+	.attr("fill","#151515");	
+
+
+//creates the bar graph for the # of hours slept
+//data pulls from an array that is connected to the JSON packet
+var Bars =  Canvas.selectAll("rect")
+   .attr("id", "Bars")
+   .data(DataArray)
+   .enter()
+   .append("rect")
+   .attr("width", function(d) {return heightScale(d.sleep_time.hours + (d.sleep_time.minutes/60))/2 ;})
+   .attr("height", 60.01)
+   .attr("y", function(d, i) { return i * 80})
+   .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
+   .attr("transform", "rotate(-90)")
+   .on("mouseover", mouseoverC)
+   .on("mouseout", mouseoutC);
+
+
+//creates the bar graph for the # of interruptions
+var InterBars =  Canvas2.selectAll("rect")
+  .data(DataArray)
+  .attr("id", "inter_Bars")
+  .enter()
+   .append("rect")
+   .attr("width", function(d) {return interScale(d.inter_time.interruptions)*1.125;})
+   .attr("height", 60.02)
+   .attr("y", function(d, i) { return i * 80})
+   .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
+   .attr("transform", "translate(300,350) rotate (-90)")
+   .on("mouseover", mouseoverC)
+   .on("mouseout", mouseoutC);
+
+//creates the bar graph for the total length of the interruptions   
+var DurBars =  Canvas3.selectAll("rect")
+  .data(DataArray)
+  .attr("id", "DurBars")
+  .enter()
+   .append("rect")
+   .attr("width", function(d) {return durScale(d.inter_time.minutes / 1.4);})
+   .attr("height", 60.03)
+   .attr("y", function(d, i) { return i * 80})
+   .attr("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); })
+   .attr("transform", "translate(300,180) rotate (-90)")
+   .on("mouseover", mouseoverC)
+   .on("mouseout", mouseoutC);
+   
+   
+//redraw_graph is called whenever the data is switched
+//checks to see if there is enough data to use
+var redraw_graph = function() {
+
+//checks to see if the index can get the next 7 pieces of data
+// we check n + 13 because the array is n to n+6. Then we need to check the next 7 spots
+	if(n + 13 > data.length - 1)
+	{
+	//if there is not enough pieces of data to go another 7 spots, we go as far as we can and then fill the remaining spots with 0
+		for(var t = 1; t < 7; t++)
+			{
+				if (n + t > (data.length - 1))
+				{
+					DataArray[t] = 0;
+				}
+				
+				else
+				{
+					DataArray[t] = data[n+t];
+				}
+			
+			}
+	}
+	//if there is enough pieces of data to go another 7 spots, we go the next 7 spots
+	else
+	{
+		DataArray = [data[n],
+				data[n+1],
+				data[n+2],
+				data[n+3],
+				data[n+4],
+				data[n+5],
+				data[n+6]];
+	
+	}
+	
+	//get MaxY gets the highest data point so it can be used for scaling the y axis of the Duration bar graph
+	var max = getMaxY(DataArray);
+
+	DuryScale.domain([0,max + (5-(max%5))]);
+	
+	DurYAxis
+		.ticks(6)
+		.scale(DuryScale);
+		
+	Canvas3.select("#DurYAxis")
+			.call(DurYAxis);
+		
+
+//redraws the Bars, InterBars, and DurBars
+	Bars
+	.data(DataArray)
+    .transition()
+    .duration(1000)
+    .attr('width', function(d)    
+    { 
+     return heightScale(d.sleep_time.hours + (d.sleep_time.minutes/60))/2 ;
+    })
+    .style("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); });
+    
+    InterBars
+	.data(DataArray)
+    .transition()
+    .duration(1000)
+    .attr('width', function(d)    
+    { 
+     return interScale(d.inter_time.interruptions)*1.125; 
+    })
+    .style("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); });
+    
+    durScale.domain([0, max + (5 - (max % 5))]);
+    
+    DurBars
+	.data(DataArray)
+    .transition()
+    .duration(1000)
+    .attr('width', function(d)    
+    { 
+     return durScale(d.inter_time.minutes / 1.4); 
+    })
+    .style("fill", function(d) { return color(d.sleep_time.hours + (d.sleep_time.minutes/60)); });
+
+
+//updates the date at the top of the bar graph
+var curMonth;
+var curDay;
+var pastMonth;
+var pastDay;
+
+//gets the most recent date on the bar graph and the earliest date on the bar graph
+var pastParser = DataArray[0].date.split("-");
+var curParser = DataArray[6].date.split("-");
+
+curMonth = curParser[1];
+curDay = curParser[2];
+
+pastMonth = pastParser[1];
+pastDay = pastParser[2];
+
+if(curMonth[0] == 0)
+{
+ curMonth = curMonth[1];
+}
+
+if(pastMonth[0] == 0)
+{
+pastMonth = pastMonth[1];
+}
+console.log(curMonth);
+console.log(pastMonth);
+	
+Canvas.select("#header_text")
+		.style("text-anchor", "middle")
+		.attr("x", 280)
+		.attr("y", -370)
+		.text("Sleep From: " + monthNames[pastMonth - 1] + ' ' + pastDay + ' - ' + monthNames[curMonth - 1] +
+		' ' + curDay)
+		.style("fill", "#353535")
+		.style("font-size", 25)
+		.style("font-family", "Helvetica");
+}
+
+
+
+
+
+
+
+
+//on click event for the right triangle 
+RightTriangle.on("click", function() {
+
+//when clicked
+//changes the sizes of the circles
+//gets the next 7 pieces of data
+//readjusts the date
+        if (Circle1.attr("r") == 9)
+         {
+            
+            RightTriangle.attr("fill","#151515");
+            LeftTriangle.attr("fill","#151515");
+            
+            Circle1.attr("fill", "#959595");
+            Circle2.attr("fill", "#151515");
+            
+            Circle1.attr("r", "6");
+            Circle2.attr("r", "9");
+
+			n = n+7;
+			weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+
+         }
+         
+        else if (Circle2.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#151515");
+        	
+        	Circle2.attr("fill", "#959595");
+            Circle3.attr("fill", "#151515");
+            
+            Circle2.attr("r", "6");
+            Circle3.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+            
+        }
+        
+        else if (Circle3.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#151515");
+        	
+        	Circle3.attr("fill", "#959595");
+            Circle4.attr("fill", "#151515");
+            
+            Circle3.attr("r", "6");
+            Circle4.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+        }
+        
+        else if (Circle4.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#959595");
+        	
+        	Circle4.attr("fill", "#959595");
+            Circle5.attr("fill", "#151515");
+            
+            Circle4.attr("r", "6");
+            Circle5.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+        }
+        
+        else
+        {
+        
+        }
+		redraw_graph();
+    });
+
+//on click event for the left triangle 
+LeftTriangle.on("click", function() {
+//when clicked
+//changes the sizes of the circles
+//gets the previous 7 pieces of data
+//readjusts the date
+        if (Circle5.attr("r") == 9)
+         {
+            LeftTriangle.attr("fill","#151515");
+            RightTriangle.attr("fill","#151515");
+            
+            Circle5.attr("fill", "#959595");
+            Circle4.attr("fill", "#151515");
+            
+            Circle5.attr("r", "6");
+            Circle4.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+			
+         }
+         
+        else if (Circle4.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#151515");
+        	
+        	Circle4.attr("fill", "#959595");
+            Circle3.attr("fill", "#151515");
+            
+            Circle4.attr("r", "6");
+            Circle3.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+           
+        }
+        
+        else if (Circle3.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#151515");
+        	
+        	Circle3.attr("fill", "#959595");
+            Circle2.attr("fill", "#151515");
+            
+            Circle3.attr("r", "6");
+            Circle2.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+	
+        }
+        
+        else if (Circle2.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#959595");
+        	
+        	Circle2.attr("fill", "#959595");
+            Circle1.attr("fill", "#151515");
+            
+            Circle2.attr("r", "6");
+            Circle1.attr("r", "9");
+            
+            
+            n = n-7;
+            
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+        }
+        
+        else
+        {
+        }
+		redraw_graph();
+    });
+    
+    
+//creates the text for each of the graphs' axis 
+Canvas.append("g")
+.attr("transform", "translate(0,0)")
+.call(axis)
+.selectAll("text")
+.attr("transform", "translate(30,0)");
+        
+Canvas.append("g")
+.attr("transform", "translate(0,-525)")
+.call(yAxis);
+
+Canvas2.append("g")
+.attr("transform", "translate(300,350)")
+.call(interXAxis)
+.selectAll("text")
+.attr("transform", "translate(30,0)");
+
+Canvas2.append("g")
+.attr("transform", "translate(300, 200)")
+.call(interYAxis);
+
+Canvas3.append("g")
+.attr("transform", "translate(300,180)")
+.call(DurXAxis)
+.selectAll("text")
+.attr("transform", "translate(30,0)");
+
+Canvas3.append("g")
+.attr("transform", "translate(300, 30)")
+.attr("id", "DurYAxis")
+.call(DurYAxis);
+        
+	
+Canvas.append("text")
+		.style("text-anchor", "middle")
+		.attr("x", 250)
+		.attr("y", -40)
+		.attr("transform","rotate(-90)")
+		.text("Hours of Sleep")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+
+
+Canvas2.append("text")
+		.style("text-anchor", "middle")
+		.attr("x",-280)
+		.attr("y",230)
+		.attr("transform","rotate(-90)")
+		.html("Number of ")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+
+
+Canvas2.append("text")
+		.style("text-anchor", "middle")
+		.attr("x",-280)
+		.attr("y",260)
+		.attr("transform","rotate(-90)")
+		.html("Interruptions")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+	
+	
+Canvas3.append("text")
+		.style("text-anchor", "middle")
+		.attr("x",-100)
+		.attr("y", 200)
+		.attr("transform","rotate(-90)")
+		.text("Total Duration")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+		
+Canvas3.append("text")
+		.style("text-anchor", "middle")
+		.attr("x",-100)
+		.attr("y", 230)
+		.attr("transform","rotate(-90)")
+		.text("of Interruptions")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+Canvas3.append("text")
+		.style("text-anchor", "middle")
+		.attr("x",-100)
+		.attr("y", 260)
+		.attr("transform","rotate(-90)")
+		.text("(minutes)")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+		
+//redraws the date displayed at the top of the graphs		
+var currMonth;
+var currDay;
+var prevMonth;
+var prevDay;
+
+var prevParser = DataArray[0].date.split("-");
+var currParser = DataArray[6].date.split("-");
+
+currMonth = currParser[1];
+currDay = currParser[2];
+
+prevMonth = prevParser[1];
+prevDay = prevParser[2];
+
+if(currMonth[0] == 0)
+{
+ currMonth = currMonth[1];
+}
+
+if(prevMonth[0] == 0)
+{
+prevMonth = prevMonth[1];
+}
+console.log(currMonth);
+console.log(prevMonth);
+	
+Canvas.append("text")
+		.attr("id", "header_text")
+		.style("text-anchor", "middle")
+		.attr("x", 280)
+		.attr("y", -370)
+		.text("Sleep From: " + monthNames[prevMonth - 1] + ' ' + prevDay + ' - ' + monthNames[currMonth - 1] +
+		' ' + currDay)
+		.style("fill", "#353535")
+		.style("font-size", 25)
+		.style("font-family", "Helvetica");
+		
+	
+	
+//the selector is used to switch the data via the month and the year	
+//not finished. we were told it was not necessary.
+// we will leave the code here in case someone else wants the selector	
+		
+d3.select("#select-Month").on("change", function()
+{
+	var dates = [];
+	var selectedMonth = d3.event.target.value;
+	var selectedYear = document.getElementById("select-Year").value;
+	
+	for (var m = 0; m < data.length; m++)
+	{
+		dates.push(data[m].date);
+	
+	}
+	
+	
+
+	var new_parse;
+	var months = [];
+	var years = [];
+
+	for(var i = 0; i < data.length; i++)
+	{
+		new_parse = dates[i].split("-");
+		months.push(new_parse[1]);
+		years.push(new_parse[0]);
+	}
+	
+	console.log(dates);
+	console.log(months);
+	console.log(years);
+	
+            
+	
+	 Circle5.attr("fill", "#151515");
+	 Circle5.attr("r", "9");
+	 
+     Circle4.attr("fill", "#959595");
+     Circle4.attr("r", "6");
+     
+     Circle3.attr("fill", "#959595");
+     Circle3.attr("r", "6");
+     
+     Circle2.attr("fill", "#959595");
+     Circle2.attr("r", "6");
+     
+     Circle1.attr("fill", "#959595");
+     Circle1.attr("r", "6");
+     
+     LeftTriangle.attr("fill","#151515")
+     RightTriangle.attr("fill","#959595")
+   
+	
+	redraw_graph();
+});
+
+
+d3.select("#select-Year").on("change", function()
+{
+
+var dates = [];
+	var selectedMonth = document.getElementById("select-Month").value;
+	var selectedYear = d3.event.target.value;
+
+	
+	for (var m = 0; m < data.length; m++)
+	{
+		dates.push(data[m].date);
+	
+	}
+	
+	
+
+	var new_parse;
+	var months = [];
+	var years = [];
+
+	for(var i = 0; i < data.length; i++)
+	{
+		new_parse = dates[i].split("-");
+		months.push(new_parse[1]);
+		years.push(new_parse[0]);
+	}
+	
+	
+	Circle5.attr("fill", "#151515");
+	 Circle5.attr("r", "9");
+	 
+     Circle4.attr("fill", "#959595");
+     Circle4.attr("r", "6");
+     
+     Circle3.attr("fill", "#959595");
+     Circle3.attr("r", "6");
+     
+     Circle2.attr("fill", "#959595");
+     Circle2.attr("r", "6");
+     
+     Circle1.attr("fill", "#959595");
+     Circle1.attr("r", "6");
+     
+     LeftTriangle.attr("fill","#151515")
+     RightTriangle.attr("fill","#959595")
+   
+	
+	redraw_graph();
+
+
+});
+
+
+
+
+});
+
+	
+
+
+</script>
+
+
+<div class = "pointer">
+</div>
+
+<div class = "pointer" style = "
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid #E2E2E2;
+  margin-top:54px;">
+</div>
+
+<h2 class = "label" style = "margin-left: 925px; margin-top: 42px"> 
+hover over the bars <br> for more information
+</h2>
+
+
+</body>
+</html>

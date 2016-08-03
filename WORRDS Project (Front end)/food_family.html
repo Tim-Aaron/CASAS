@@ -1,0 +1,1012 @@
+<html >
+<head>
+<script src= "food_family.js"></script>
+<script src = "http://d3js.org/d3.v3.min.js"> </script>
+<title >
+FOOD
+</title>
+
+<style>
+
+/* these elements are for the banner at the top of the screen */
+center
+{
+float:left;
+width: 260px;
+height: 45px;
+background-color: #EBEBEB;
+
+}
+
+.TopBanner
+{
+width: 1046px;
+height: 45px;
+margin-left:80px;
+border: 2px solid #1F1F1F;
+}
+
+.verticalLine
+{
+float:left;
+width:2px;
+height:45px;
+background-color: #1F1F1F;
+}
+
+h1
+{
+margin-top:5px;
+font-family: helvetica;
+font-size: 28px;
+color: #1F1F1F;
+}
+
+body
+{
+background-color: #E2E2E2;
+}
+
+/* these elements will display extra information to the user*/
+
+/* the actual box that appears */
+#infobox
+{
+width:110px;
+height:60px;
+background-color:transparent;
+border:0px solid black;
+margin-left:285px;
+position:absolute;
+z-index:2;
+}
+
+/* the text that appears in the box */
+#infoText
+{
+font-family:Helvetica;
+font-size:23px;
+color:black;
+margin-left:10px;
+margin-top:20px;
+
+}
+
+/* label is for the text that explains hovering over dots for more information*/
+.label
+{
+font-family:Helvetica;
+font-size:20px;
+color: 2px solid black;
+position: absolute;
+font-weight:lighter;
+}
+
+/* label text if for the evening and morning labels on the left side of the screen */
+.labelText
+{
+font-family:Helvetica;
+font-size:22px;
+color:black;
+position:absolute;
+margin-top:600px;
+margin-left:5px;
+}
+
+/* gradient is for the yellow to purple bar on the left side of the screen*/
+.gradient
+{
+background: #2C2C2C; /* For browsers that do not support gradients */
+background: -webkit-linear-gradient(0deg, #FADFCD, #937FDA); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(0deg, #FADFCD, #937FDA); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(0deg, #FADFCD, #937FDA); /* For Firefox 3.6 to 15 */
+background: linear-gradient(0deg, #FADFCD, #937FDA); /* Standard syntax */
+width:100px;
+height:640px;
+position:absolute;
+margin-left:120px;
+margin-top:50px;
+border-radius: 5px;
+opacity:.6;
+}
+
+/* pointer if for the small triangle pointing to the information about hovering over dots*/
+.pointer {
+position:absolute;
+margin-left:930px;
+margin-top:450px;
+width: 0; 
+height: 0; 
+border-top: 12px solid transparent;
+border-bottom: 12px solid transparent;
+border-left: 15px solid black;
+}
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<!-- These elements are for the banner located at the top of the screen -->
+
+<div class = "TopBanner">
+<center id = "-1" style = "background-color: #2F95DE">
+<image src = "http://i.imgur.com/KVATZ6o.png" height = "45px" width = "45px"  style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+food
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center  onmouseover="changeBackground(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "https://s31.postimg.org/xlzax2il7/blank_pill_bottle_copy.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+medication
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+<center  onmouseover="changeBackground(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "https://s31.postimg.org/cjxj0lty3/moon.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+sleep
+</h1>
+</center>
+<div class = "verticalLine">
+</div>
+
+
+<center onmouseover="changeBackground(this)" onmouseout="backNormal(this)" id = "-1">
+<image src = "http://i.imgur.com/wh1QzHo.png" height = "45px" width = "45px" style = "float:left"/>
+<div class = "verticalLine">
+</div>
+<h1>
+hygiene
+</h1>
+</center>
+
+</div>
+
+
+
+<!-- These elements are for the evening and morning labels on the left side of the screen-->
+<div id= "infobox">
+
+<h4 id = "infoText">
+</h4>
+
+</div>
+
+<div class = "gradient">
+
+<h5 class = "labelText" style = "margin-top:15px;">
+evening
+</h5>
+
+<h5 class = "labelText"> 
+morning 
+</h5>
+
+</div>
+
+
+<!-- This div is for the arrow that will point to the label that describes hovering over the dotsfor more information -->
+<div class = "pointer">
+</div>
+
+<div class = "pointer" style = "
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid #E2E2E2;
+  margin-top:454px;">
+</div>
+
+<!-- This is the label that will describe hovering over dots for more information -->
+<h2 class = "label" style = "margin-left: 965px; margin-top: 442px"> 
+hover over the dots <br> for more information
+</h2>
+
+<script>
+// The data is being taken from a JSON server that is separate from the one we need (the desired server was down during our time writing this)
+// will need to pull from the proper rabbit MQ server
+d3.json("https://api.myjson.com/bins/4aqs9", function(data)
+{
+//array holding months that will be used to display the date at the top of the screen
+	var monthNames = new Array();
+		monthNames[0] = "January";
+		monthNames[1] = "February";
+		monthNames[2] = "March";
+		monthNames[3] = "April";
+		monthNames[4] = "May";
+		monthNames[5] = "June";
+		monthNames[6] = "July";
+		monthNames[7] = "August";
+		monthNames[8] = "September";
+		monthNames[9] = "October";
+		monthNames[10] = "November";
+		monthNames[11] = "December";
+		
+	//n is used to get the 7 latest days
+	var n = data.length - 7;
+
+	// DataArray will hold all 7 days
+	var DataArray = [data[n],
+					data[n+1],
+					data[n+2],
+					data[n+3],
+					data[n+4],
+					data[n+5],
+					data[n+6]];
+					
+	
+	//creates the dates that will be displayed at the top fo the screen
+	
+	var date = new Date();
+
+	var offset = date.getDay();
+
+	date = d3.time.day.offset(date, 6 - offset);
+
+	var weekAgo = d3.time.day.offset(date,- 6);
+	
+	//gets the latest day
+
+	var day = date.getDate();
+	var month =  monthNames[date.getMonth()];
+	
+	//gets the day 7 days prior
+
+	var old_day = weekAgo.getDate();
+	var old_month = monthNames[weekAgo.getMonth()];
+	
+				
+	//the width of the canvas
+	var width = 880;
+
+
+	//the scales for the canvas's axis
+	var xScale = d3.scale.linear()
+		.domain([0,7])
+		.range([0,600]);
+   
+	var yScale = d3.scale.linear()
+		.domain([0,18])
+		.range([580,0]);
+			
+	//the labels for the axis
+	var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+	
+	var time = ["6:00am","7:00am","8:00am","9:00am","10:00am","11:00am",
+				"12:00pm","1:00pm","2:00pm","3:00pm","4:00pm","5:00pm",	
+				"6:00pm","7:00pm","8:00pm","9:00pm","10:00pm","11:00pm","12:00am"];
+	
+	//the color scale is used for the white and grey bars on the graph
+	var colorScale = d3.scale.linear()
+  		.domain([0,1])
+  		.range(["white", "#DCDCDC"]);
+
+//creates the Canvas for the bar graph
+	var canvas = d3.select("body")
+		.attr("id", "canvas")
+        .append("svg")
+        .attr("width", width)
+	    .attr("height", 800)
+ 	 	.append("g")
+	 	.attr("transform", "translate(300,560)");
+	 	
+//creates the Canvas for the legend
+	var canvas2 = d3.select("body")
+		.attr("id", "canvas")
+        .append("svg")
+        .attr("width", 300)
+	    .attr("height", 800)
+ 	 	.append("g")
+	 	.attr("transform", "translate(300,500)");
+    	 
+//axis for the bar graphs
+	var yAxis = d3.svg.axis()
+		.ticks(8)
+		.tickFormat(function(d) {return time[d];})
+		.scale(yScale)
+		.orient("left");
+			
+	var axis = d3.svg.axis()
+		.orient("bottom")
+		.ticks(7)
+        .tickFormat(function(d) {return days[d];})
+        .scale(xScale);
+                
+    //the bars that help show which points belong to which days       
+	var Bars =  canvas.selectAll("rect")
+	   .attr("id", "Bars")
+	   .data(days)
+	   .enter()
+	   .append("rect")
+	   .attr("width", 580)
+ 	   .attr("height", 83)
+ 	   .attr("y", function(d, i) { return i * 83})
+ 	   .attr("fill", function(d, i) { return colorScale(i%2);})
+ 	   .on("click", mouseClickCheck)
+ 	   .attr("transform", "translate(0,100) rotate (-90)");
+ 	   
+ 	 // sets the timeframe to be at the top of the graph
+ 	 canvas.append("text")
+	.style("text-anchor", "middle")
+	.attr("id", "header_text")
+	.attr("x", 300)
+	.attr("y", -510)
+	.text("Food  Schedule: " + old_month + " " + old_day + " - " + month + " " + day)
+	.style("fill", "#353535")
+	.style("font-size", 30)
+	.style("font-family", "Helvetica");
+ 	   
+ 	   
+ 	   
+ 	 //places the legend on the right side of the graph
+	var legend = canvas2.append("rect")
+				 .attr("x",-250)
+				 .attr("y",-400)
+				 .attr("fill","transparent")
+				 .attr("stroke", "black")
+				 .attr("stroke-width", "2px")
+				 .attr("width",245)
+				 .attr("height",300);
+				 
+				 
+	//creates the triangles used to switch the data
+	var TriangleXScale = d3.scale.linear()
+					.domain([0,200])
+					.range([0,200])
+					  	  
+	var TriangleYScale = d3.scale.linear()
+					.domain([0,100])
+					.range([100,0])
+					  
+	var TrianglePointsLeft = TriangleXScale(0) + ' ' + TriangleYScale(0) + ', ' + 
+					TriangleXScale(-15) + ' ' + TriangleYScale(15) + ' ' + 
+					TriangleXScale(0) + ' ' + TriangleYScale(30);
+						   
+	var TrianglePointsRight = TriangleXScale(0) + ' ' + TriangleYScale(0) + ', ' + 
+					TriangleXScale(15) + ' ' + TriangleYScale(15) + ' ' + 
+					TriangleXScale(0) + ' ' + TriangleYScale(30);	
+			
+	//creates left triangle		
+	var LeftTriangle = canvas.append("polygon")
+		.attr("fill","#151515")
+		.attr('points', TrianglePointsLeft)
+		.attr("transform","translate(160,80)");	
+
+	//creates right triangle
+	var RightTriangle = canvas.append("polygon")
+		.attr("fill","#959595")
+		.attr('points', TrianglePointsRight)
+		.attr("transform","translate(380,80)");
+	
+	//creates the 5 circles between the triangles
+	//they will help indicate the # of weeks a user can move through
+	var Circle1 = canvas.append("circle")
+		.attr("cx", 190)
+		.attr("cy", 165)
+		.attr("r", 6)
+		.attr("fill","#959595");
+	
+	var Circle2 = canvas.append("circle")
+		.attr("cx", 230)
+		.attr("cy", 165)
+		.attr("r", 6)
+		.attr("fill","#959595");
+	
+	
+	var Circle3 = canvas.append("circle")
+		.attr("cx", 270)
+		.attr("cy", 165)
+		.attr("r", 6)
+		.attr("fill","#959595");
+	
+	
+	var Circle4 = canvas.append("circle")
+		.attr("cx", 310)
+		.attr("cy", 165)
+		.attr("r", 6)
+		.attr("fill","#959595");	  
+	
+	var Circle5 = canvas.append("circle")
+		.attr("cx", 350)
+		.attr("cy", 165)
+		.attr("r", 9)
+		.attr("fill","#151515");	
+				 
+	
+ 	//these variables create the dots that will be plotted on the graph
+ 	var orangeCircle1 = [8];
+ 	
+ 	var blueCircle2 = [8];
+ 	
+ 	var redCircle3 = [8];
+ 	
+ 	var purpleCircle4 = [8];
+ 	
+ 	var greenCircle5 = [8];
+ 	
+ 	
+ 	//assigns attributes to each of the circles
+ 	orangeCircle1[0] = canvas2.append("circle")
+ 				.attr("id", "orangeCircle0")
+ 				.attr("cx",-200)
+ 				.attr("cy", -350)
+ 				.attr("r", 10)
+ 				.attr("fill", "orange");
+
+
+	blueCircle2[0] = canvas2.append("circle")
+				.attr("id", "blueCircle0")
+				.attr("cx", -200)
+				.attr("cy", -300)
+				.attr("r", 10)
+				.attr("fill", "blue");
+
+
+	redCircle3[0] = canvas2.append("circle")
+				.attr("id", "redCircle0")
+				.attr("cx",-200)
+				.attr("cy", -250)
+				.attr("r", 10)
+				.attr("fill", "red");
+
+
+	purpleCircle4[0] = canvas2.append("circle")
+				.attr("id", "purpleCircle0")
+				.attr("cx", -200)
+				.attr("cy", -200)
+				.attr("r", 10)
+				.attr("fill", "purple");
+
+
+	greenCircle5[0] = canvas2.append("circle")
+				.attr("id", "greenCircle0")
+				.attr("cx", -200)
+				.attr("cy", -150)
+				.attr("r", 10)
+				.attr("fill", "green");
+				
+	//loops through the 7 days to plot out the data
+	//plots 1 day per loop starting from the left			
+	for (var z = 1; z < 8; z++)
+	{
+	orangeCircle1[z] = canvas.append("circle")
+				.data(DataArray)
+				.attr("id", "orangeCircle" + z)
+ 				.attr("cx",function(d) { return (z * 83) - 40;} )
+ 				.attr("cy",function(d) { return ( (-(DataArray[z-1].eat_time.time1.split(":")[0]) - 
+ 				((DataArray[z-1].eat_time.time1.split(":")[1])/60)) * 33) + 305 ;})
+ 				.attr("r", 10)
+ 				.attr("fill", "orange")
+ 				.on("mouseover", mouseoverC)
+   				.on("mouseout", mouseoutC)
+   				.on("click", mouseClickCheck);
+
+		console.log(orangeCircle1[z].attr("id"));
+
+	blueCircle2[z] = canvas.append("circle")
+				.data(DataArray)
+				.attr("id", "blueCircle" + z)
+				.attr("cx",function(d) { return (z * 83) - 40;} )
+ 				.attr("cy",function(d) { return ( (-(DataArray[z-1].eat_time.time2.split(":")[0]) - 
+ 				((DataArray[z-1].eat_time.time2.split(":")[1])/60)) * 33) + 305;})
+				.attr("r", 10)
+				.attr("fill", "blue")
+				.on("mouseover", mouseoverC)
+   				.on("mouseout", mouseoutC)
+   				.on("click", mouseClickCheck);
+
+
+	redCircle3[z] = canvas.append("circle")
+				.data(DataArray)
+				.attr("id", "redCircle" + z)
+				.attr("cx",function(d) { return (z * 83) - 40;} )
+ 				.attr("cy",function(d) { return ( (-(DataArray[z-1].eat_time.time3.split(":")[0]) - 
+ 				((DataArray[z-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+				.attr("r", 10)
+				.attr("fill", "red")
+				.on("mouseover", mouseoverC)
+   				.on("mouseout", mouseoutC)
+   				.on("click", mouseClickCheck);
+
+
+//checks to see if there are more than 3 meals eaten a day. If so purple and green dots are used
+	if (DataArray[z-1].eat_time.time4 != null)
+	{
+	console.log("purple circle was reached");
+	purpleCircle4[z] = canvas.append("circle")
+				.data(DataArray)
+				.attr("id", "purpleCircle" + z)
+				.attr("cx",function(d) { return (z * 83) - 40;} )
+ 				.attr("cy",function(d) { return ( (-(DataArray[z-1].eat_time.time4.split(":")[0]) - 
+ 				((DataArray[z-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+				.attr("r", 10)
+				.attr("fill", "purple")
+				.on("mouseover", mouseoverC)
+   				.on("mouseout", mouseoutC)
+   				.on("click", mouseClickCheck);
+   	}
+
+
+	if (DataArray[z-1].eat_time.time5 != null)
+	{
+	greenCircle5[z] = canvas.append("circle")
+				.data(DataArray)
+				.attr("id", "greenCircle")
+				.attr("cx",function(d) { return (z * 83) - 40;} )
+ 				.attr("cy",function(d) { return ( (-(DataArray[z-1].eat_time.time5.split(":")[0]) - 
+ 				((DataArray[z-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+				.attr("r", 10)
+				.attr("fill", "green")
+				.on("mouseover", mouseoverC)
+   				.on("mouseout", mouseoutC)
+   				.on("click", mouseClickCheck);
+   	}
+	
+	
+	}
+	
+ //redraws the graph when the user wants to look at other weeks in the month
+var redraw_graph = function() {
+
+	//checks to see if there are enough data points to go forward another week
+	//we check 13 because n starts on day 1 of the current week so we have to check the current week (+6 days ) plus the next week (+7 days)
+	if(n + 13 > data.length - 1)
+	{
+		//if there is not enough data points to go another full week we go as far as we can and replace any null points with 0 
+		for(var t = 1; t < 7; t++)
+			{
+				if (n + t > (data.length - 1))
+				{
+					DataArray[t] = 0;
+				}
+				
+				else
+				{
+					DataArray[t] = data[n+t];
+				}
+			
+			}
+	}
+	//else we go another week
+	else
+	{
+		DataArray = [data[n],
+				data[n+1],
+				data[n+2],
+				data[n+3],
+				data[n+4],
+				data[n+5],
+				data[n+6]];
+	
+	}
+
+	
+	var p = 1;
+
+//redraws the dots via another loop
+	while (p < 8)
+	{
+	
+	if (DataArray[p-1].eat_time.time1 != null)
+	{
+	orangeCircle1[p]
+				.data(DataArray)
+ 				.transition()
+ 				.duration(1000)
+ 				.attr("cy",function(d) { return ( (-(DataArray[p-1].eat_time.time1.split(":")[0]) - 
+ 				((DataArray[p-1].eat_time.time1.split(":")[1])/60)) * 33) + 305 ;})
+ 				.attr("r", 10)
+ 				.attr("fill", "orange");
+   	}	
+
+	if (DataArray[p-1].eat_time.time2 != null)
+	{
+	blueCircle2[p]
+				.data(DataArray)
+				.transition()
+				.duration(1000)
+ 				.attr("cy",function(d) { return ( (-(DataArray[p-1].eat_time.time2.split(":")[0]) - 
+ 				((DataArray[p-1].eat_time.time2.split(":")[1])/60)) * 33) + 305;})
+ 				.attr("r", 10)
+				.attr("fill", "blue");
+	}
+
+	if (DataArray[p-1].eat_time.time3 != null)
+	{
+	redCircle3[p]
+				.data(DataArray)
+				.transition()
+				.duration(1000)
+ 				.attr("cy",function(d) { return ( (-(DataArray[p-1].eat_time.time3.split(":")[0]) - 
+ 				((DataArray[p-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+ 				.attr("r", 10)
+				.attr("fill", "red");
+	}
+
+	if (DataArray[p-1].eat_time.time4 != null)
+	{
+		purpleCircle4[p]
+				.data(DataArray)
+				.transition()
+				.duration(1000)
+ 				.attr("cy",function(d) { return ( (-(DataArray[p-1].eat_time.time4.split(":")[0]) - 
+ 				((DataArray[p-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+ 				.attr("r", 10)
+				.attr("fill", "purple");
+				
+   	}
+
+
+	if (DataArray[p-1].eat_time.time5 != null)
+	{
+		greenCircle5[p]
+				.data(DataArray)
+				.transition()
+				.duration(1000)
+ 				.attr("cy",function(d) { return ( (-(DataArray[p-1].eat_time.time5.split(":")[0]) - 
+ 				((DataArray[p-1].eat_time.time3.split(":")[1])/60)) * 33) +305 ;})
+ 				.attr("r", 10)
+				.attr("fill", "green");
+   	}
+   	
+   	
+   	p++;
+   	
+   	}
+   	
+//remakes the date above the graph
+
+	var curMonth;
+	var curDay;
+	var pastMonth;
+	var pastDay;
+
+	var pastParser = DataArray[0].date.split("-");
+	var curParser = DataArray[6].date.split("-");
+
+	curMonth = curParser[1];
+	curDay = curParser[2];
+
+	pastMonth = pastParser[1];
+	pastDay = pastParser[2];
+
+	if(curMonth[0] == 0)
+	{
+	 curMonth = curMonth[1];
+	}
+
+	if(pastMonth[0] == 0)
+	{
+	pastMonth = pastMonth[1];
+	}
+	console.log(curMonth);
+	console.log(pastMonth);
+	
+	canvas.select("#header_text")
+		.style("text-anchor", "middle")
+		.attr("x", 280)
+		.attr("y", -510)
+		.text("Food Schedule: " + monthNames[pastMonth - 1] + ' ' + pastDay + ' - ' + monthNames[curMonth - 1] +
+		' ' + curDay)
+		.style("fill", "#353535")
+		.style("font-size", 25)
+		.style("font-family", "Helvetica");
+		
+}
+
+//on click event for the right triangle 
+RightTriangle.on("click", function() {
+
+//when clicked
+//changes the sizes of the circles
+//gets the next 7 pieces of data
+//readjusts the date
+
+
+for (var index = 1; index < 8; index++)
+{
+
+if (orangeCircle1[index] != null)
+{
+orangeCircle1[index].attr("r", 0);
+}
+
+if (blueCircle2[index] != null)
+{
+blueCircle2[index].attr("r", 0);
+}
+
+if (redCircle3[index] != null)
+{
+redCircle3[index].attr("r", 0);
+}
+
+if (purpleCircle4[index] != null)
+{
+purpleCircle4[index].attr("r", 0);
+}
+
+if (greenCircle5[index] != null)
+{
+greenCircle5[index].attr("r", 0);
+}
+
+
+}
+
+
+        if (Circle1.attr("r") == 9)
+         {
+            
+            RightTriangle.attr("fill","#151515");
+            LeftTriangle.attr("fill","#151515");
+            
+            Circle1.attr("fill", "#959595");
+            Circle2.attr("fill", "#151515");
+            
+            Circle1.attr("r", "6");
+            Circle2.attr("r", "9");
+
+			n = n+7;
+			weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+
+         }
+         
+        else if (Circle2.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#151515");
+        	
+        	Circle2.attr("fill", "#959595");
+            Circle3.attr("fill", "#151515");
+            
+            Circle2.attr("r", "6");
+            Circle3.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+            
+        }
+        
+        else if (Circle3.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#151515");
+        	
+        	Circle3.attr("fill", "#959595");
+            Circle4.attr("fill", "#151515");
+            
+            Circle3.attr("r", "6");
+            Circle4.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+        }
+        
+        else if (Circle4.attr("r") == 9)
+        {
+        	
+        	RightTriangle.attr("fill","#959595");
+        	
+        	Circle4.attr("fill", "#959595");
+            Circle5.attr("fill", "#151515");
+            
+            Circle4.attr("r", "6");
+            Circle5.attr("r", "9");
+            
+            n = n+7;
+            weekAgo = d3.time.day.offset(weekAgo, 7);
+            date = d3.time.day.offset(date,7);
+        }
+        
+        else
+        {
+        
+        }
+		redraw_graph();
+    });
+
+//on click event for the left triangle 
+LeftTriangle.on("click", function() {
+//when clicked
+//changes the sizes of the circles
+//gets the previous 7 pieces of data
+//readjusts the date
+
+for (var index = 1; index < 8; index++)
+{
+
+if (orangeCircle1[index] != null)
+{
+orangeCircle1[index].attr("r", 0);
+}
+
+if (blueCircle2[index] != null)
+{
+blueCircle2[index].attr("r", 0);
+}
+
+if (redCircle3[index] != null)
+{
+redCircle3[index].attr("r", 0);
+}
+
+if (purpleCircle4[index] != null)
+{
+purpleCircle4[index].attr("r", 0);
+}
+
+if (greenCircle5[index] != null)
+{
+greenCircle5[index].attr("r", 0);
+}
+
+
+}
+
+
+
+        if (Circle5.attr("r") == 9)
+         {
+            LeftTriangle.attr("fill","#151515");
+            RightTriangle.attr("fill","#151515");
+            
+            Circle5.attr("fill", "#959595");
+            Circle4.attr("fill", "#151515");
+            
+            Circle5.attr("r", "6");
+            Circle4.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+			
+         }
+         
+        else if (Circle4.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#151515");
+        	
+        	Circle4.attr("fill", "#959595");
+            Circle3.attr("fill", "#151515");
+            
+            Circle4.attr("r", "6");
+            Circle3.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+           
+        }
+        
+        else if (Circle3.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#151515");
+        	
+        	Circle3.attr("fill", "#959595");
+            Circle2.attr("fill", "#151515");
+            
+            Circle3.attr("r", "6");
+            Circle2.attr("r", "9");
+            
+            n = n-7;
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+	
+        }
+        
+        else if (Circle2.attr("r") == 9)
+        {
+        	
+        	LeftTriangle.attr("fill","#959595");
+        	
+        	Circle2.attr("fill", "#959595");
+            Circle1.attr("fill", "#151515");
+            
+            Circle2.attr("r", "6");
+            Circle1.attr("r", "9");
+            
+            
+            n = n-7;
+            
+            date = d3.time.day.offset(weekAgo, -1);
+			weekAgo = d3.time.day.offset(weekAgo,-7);
+        }
+        
+        else
+        {
+        }
+		redraw_graph();
+    });
+
+//appends all the information in the legend on the right of the graph				
+	canvas2.append("text")
+		.attr("x",-175)
+		.attr("y",-342)
+		.text("1st Meal")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+	canvas2.append("text")
+		.attr("x",-175)
+		.attr("y",-292)
+		.text("2nd Meal")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+	canvas2.append("text")
+		.attr("x",-175)
+		.attr("y",-242)
+		.text("3rd Meal")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+	canvas2.append("text")
+		.attr("x",-175)
+		.attr("y",-192)
+		.text("4th Meal")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+		
+	canvas2.append("text")
+		.attr("x",-175)
+		.attr("y",-142)
+		.text("5th Meal")
+		.style("font-size", 22)
+		.style("fill", "#353535")
+		.style("font-family", "Helvetica");
+                
+     //appends the axis           
+	canvas.append("g")
+		.attr("transform", "translate(0,100)")
+		.call(axis)
+		.selectAll("text")
+		.attr("transform", "translate(30,0)");
+        
+	canvas.append("g")
+		.attr("transform", "translate(0,-480)")
+		.call(yAxis)
+		.selectAll("text")
+		.attr("transform", "translate(0,0)");
+		
+	
+
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
