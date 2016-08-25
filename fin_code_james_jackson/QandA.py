@@ -46,7 +46,7 @@ which appear on the emily exchange. Returns an answer in Json format.
 
 import pika
 import json
-
+import sys
 import threading
 from time import sleep
 import time
@@ -55,6 +55,7 @@ from multiprocessing import Queue
 import boto3
 import decimal
 from boto3.dynamodb.conditions import Key, Attr
+from json.decoder import scanstring
 
 #------------------------------Globals-----------------------------------------
 
@@ -479,6 +480,25 @@ class DecimalEncoder(json.JSONEncoder):
 not_connected = True
 connection = None
 
+try: 
+    handler = open('/credentials.txt')
+    aws_access = handler.next().strip() 
+    aws_secret = handler.next().strip()
+    rmq_user = handler.next().strip()
+    rmq_pswd = handler.next().strip()
+    print "Credentials found and loaded."
+except:
+    print "Error: credentials.txt not found in root directory."
+    print "Please input AWS access key: "
+    aws_access = sys.stdin.readline().strip()
+    print "Please enter your AWS secret key: "
+    aws_secret = sys.stdin.readline().strip()
+    print "Please enter your RabbitMQ Username: "
+    rmq_user = sys.stdin.readline().strip()
+    print "Please enter your RabbitMQ Password: "
+    rmq_pswd = sys.stdin.readline().strip()
+    sys.stderr.write("\x1b[2J\x1b[H")
+
 #connect to the RabbitMQ server
 #IMPORTANT: FIND A BETTER WAY TO USE CREDENTIALS 
 while(not_connected):
@@ -489,7 +509,7 @@ while(not_connected):
                                     port=5672, 
                                     credentials=pika.credentials.
                                                 PlainCredentials(
-                                                'emily','FIND PASSWORD ELSEWHERE')))
+                                                rmq_user,rmq_pswd)))
         not_connected = False
     except:
         print "RabbitMQ Server Connection Failure"
@@ -502,8 +522,8 @@ channel = connection.channel()
 #USE SOME OTHER WAY SUCH AS A OS KEYSTORE.
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1', 
                           endpoint_url='https://dynamodb.us-east-1.amazonaws.com',
-                           aws_access_key_id='',
-                           aws_secret_access_key='')
+                           aws_access_key_id=aws_access,
+                           aws_secret_access_key=aws_secret)
 
 '''
 -prefetch better for multiple servers, not great for multithreading
